@@ -1,15 +1,28 @@
+app:
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  rabbitmq:
+    queue-name: ${RABBIT_Q:"order-q"}
+    exchange-name: ${RABBIT_EXCHANGE:"ordering"}
+    routing-key: ${RABBIT_ROUTE_KEY:"order-routing"}
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASS:guest}
+
 spring:
   application:
     name: inventory-cart
-  data:
-    redis:
-      host: localhost
-      port: 6379
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+#  data:
+#    redis:
+#      host: ${REDIS_HOST:localhost}
+#      port: ${REDIS_PORT:6379}
+#  rabbitmq:
+#    host: ${RABBIT_HOST:localhost}
+#    port: ${RABBIT_PORT:5672}
+#    username: ${RABBIT_USER:guest}
+#    password: ${RABBIT_PASS:guest}
 
 server:
   port: 8082
