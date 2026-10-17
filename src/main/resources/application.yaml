@@ -12,6 +12,10 @@ app:
     password: ${RABBIT_PASS:guest}
 
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframewor.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   application:
     name: inventory-cart
 #  data:
