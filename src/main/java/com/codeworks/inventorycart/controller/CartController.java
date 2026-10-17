@@ -60,6 +60,8 @@ public class  CartController {
         Map<String,CartItem> cartItemms = cartService.getCart(userId);
        List<CartItem> items =cartItemms.values().stream().toList();
 
+        cartService.deleteCart(userId);
+
         System.out.println(RabbitConfig.EXCHANGE_NAME + "  " + RabbitConfig.QUEUE_NAME);
        rabbitTemplate.convertAndSend(customRabbitProperties.getExchangeName(),
                customRabbitProperties.getRoutingKey(),items);
