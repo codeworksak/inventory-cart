@@ -2,6 +2,7 @@ package com.codeworks.inventorycart.controller;
 
 import com.codeworks.inventorycart.configs.CustomRabbitProperties;
 import com.codeworks.inventorycart.configs.RabbitConfig;
+import com.codeworks.inventorycart.models.Cart;
 import com.codeworks.inventorycart.models.CartItem;
 import com.codeworks.inventorycart.services.CartService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -60,11 +61,16 @@ public class  CartController {
         Map<String,CartItem> cartItemms = cartService.getCart(userId);
        List<CartItem> items =cartItemms.values().stream().toList();
 
+        Cart cart =Cart.builder().userId(userId)
+                .cartItems(items)
+                .build();
         cartService.deleteCart(userId);
 
         System.out.println(RabbitConfig.EXCHANGE_NAME + "  " + RabbitConfig.QUEUE_NAME);
        rabbitTemplate.convertAndSend(customRabbitProperties.getExchangeName(),
-               customRabbitProperties.getRoutingKey(),items);
+               //customRabbitProperties.getRoutingKey()
+               "",
+               cart);
        return  ResponseEntity.ok("Cart checkedout successfully");
     }
 

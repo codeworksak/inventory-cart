@@ -3,8 +3,9 @@ app:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
   rabbitmq:
-    queue-name: ${RABBIT_Q:"order-q"}
-    exchange-name: ${RABBIT_EXCHANGE:"ordering"}
+    queue-name1: ${RABBIT_INV_Q:"inventory-queue"}
+    queue-order: ${RABBIT_ORD_Q:"order-queue"}
+    exchange-name: ${RABBIT_EXCHANGE:"fanout.ordering"}
     routing-key: ${RABBIT_ROUTE_KEY:"order-routing"}
     host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5672}

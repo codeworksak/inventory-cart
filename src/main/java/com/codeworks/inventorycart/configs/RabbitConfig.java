@@ -45,8 +45,15 @@ public class RabbitConfig {
     @Bean
     public Queue queue()
     {
-        return new org.springframework.amqp.core.Queue(customRabbitProperties.getQueueName(),true);
+        return new org.springframework.amqp.core.Queue(customRabbitProperties.getQueueName1(),true);
     }
+
+    @Bean
+    public Queue queueOrder()
+    {
+        return new org.springframework.amqp.core.Queue(customRabbitProperties.getQueueOrder(),true);
+    }
+
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory)
     {
@@ -62,16 +69,27 @@ public class RabbitConfig {
         return new JacksonJsonMessageConverter();
     }
 
+//    @Bean
+//    public TopicExchange exchange()
+//    {
+//        return new TopicExchange(customRabbitProperties.getExchangeName());
+//    }
     @Bean
-    public TopicExchange exchange()
+    public  FanoutExchange exchange()
     {
-        return new TopicExchange(customRabbitProperties.getExchangeName());
+        return new FanoutExchange(customRabbitProperties.getExchangeName());
     }
     @Bean
-    public Binding binding(Queue q,TopicExchange excg)
+    public Binding binding(Queue queue,FanoutExchange excg)
     {
-        return BindingBuilder.bind(q)
-                .to(excg)
-                .with(customRabbitProperties.getRoutingKey());
+        return BindingBuilder.bind(queue).to(excg);//.with(ROUTING_KEY)
+                //.with(customRabbitProperties.getRoutingKey());
     }
+    @Bean
+    public Binding bindingOrder(Queue queueOrder,FanoutExchange excg)
+    {
+        return BindingBuilder.bind(queueOrder).to(excg);//.with(ROUTING_KEY)
+        //.with(customRabbitProperties.getRoutingKey());
+    }
+
 }
